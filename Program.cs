@@ -13,18 +13,18 @@ builder.Services.AddSwaggerGen();
 var app = builder.Build();
 app.UseCors("Policy");
 
-if (app.Environment.IsDevelopment())
-{
+// if (app.Environment.IsDevelopment())
+// {
     app.UseSwagger(options =>
- {
-     options.SerializeAsV2 = true;
- });
+    {
+        options.SerializeAsV2 = true;
+    });
     app.UseSwaggerUI(options =>
-  {
+    {
       options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
       options.RoutePrefix = string.Empty;
-  });
-}
+     });
+// }
 app.MapGet("/items", async (ToDoDbContext db) =>
     await db.Items.ToListAsync());
 app.MapPost("/items", async (ToDoDbContext db, [FromBody] Item item) =>
@@ -51,4 +51,5 @@ app.MapDelete("/items/{id}", async (ToDoDbContext db, int id) =>
     return Results.NoContent();
 
 });
+app.MapGet("/",()=>"the application is running");
 app.Run();
